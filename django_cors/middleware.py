@@ -3,6 +3,10 @@ logger = logging.getLogger(__name__)
 
 class FixIEContentType(object):
     def process_request(self, request):
+        # we need to have request.META to begin with
+        if not request.META:
+            return
+
         if 'MSIE' in request.META.get('HTTP_USER_AGENT'):
             # this is IE calling
             if not self.request.META.get('HTTP_CONTENT_TYPE', self.request.META.get('CONTENT_TYPE', '')):

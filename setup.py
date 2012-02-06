@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='django-cors',
-    version='0.1.0',
+    version='0.1.1',
     description='Classes for helping with CORS request to a Django service',
     author='Proteus Technologies Co. Ltd.',
     author_email='team@proteus-tech.com',
