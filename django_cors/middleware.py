@@ -7,7 +7,7 @@ class FixIEContentType(object):
         if not request.META:
             return
 
-        if 'MSIE' in request.META.get('HTTP_USER_AGENT'):
+        if request.META.get('HTTP_USER_AGENT') and 'MSIE' in request.META.get('HTTP_USER_AGENT'):
             # this is IE calling
             if not self.request.META.get('HTTP_CONTENT_TYPE', self.request.META.get('CONTENT_TYPE', '')):
                 request.META['HTTP_CONTENT_TYPE'] = 'text/plain'
