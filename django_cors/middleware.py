@@ -20,9 +20,11 @@ try:
     from django.conf import settings
     XS_SHARING_ALLOWED_ORIGINS = settings.XS_SHARING_ALLOWED_ORIGINS
     XS_SHARING_ALLOWED_METHODS = settings.XS_SHARING_ALLOWED_METHODS
+    XS_SHARING_ALLOWED_HEADERS = settings.XS_SHARING_ALLOWED_HEADERS
 except:
     XS_SHARING_ALLOWED_ORIGINS = '*'
     XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+    XS_SHARING_ALLOWED_HEADERS = ['X-Requested-With']
 
 XS_SHARING_ALLOW_CREDENTIALS = True
 
@@ -41,7 +43,7 @@ class XsSharingMiddleware(object):
             response['Access-Control-Allow-Origin']  = XS_SHARING_ALLOWED_ORIGINS
             response['Access-Control-Allow-Methods'] = ",".join( XS_SHARING_ALLOWED_METHODS )
             response['Access-Control-Allow-Credentials'] = str(XS_SHARING_ALLOW_CREDENTIALS).lower()
-            response['Access-Control-Allow-Headers'] = 'X-Requested-With'
+            response['Access-Control-Allow-Headers'] = ",".join( XS_SHARING_ALLOWED_HEADERS )
             return response
 
         return None
@@ -54,6 +56,6 @@ class XsSharingMiddleware(object):
         response['Access-Control-Allow-Origin']  = XS_SHARING_ALLOWED_ORIGINS
         response['Access-Control-Allow-Methods'] = ",".join( XS_SHARING_ALLOWED_METHODS )
         response['Access-Control-Allow-Credentials'] = str(XS_SHARING_ALLOW_CREDENTIALS).lower()
-        response['Access-Control-Allow-Headers'] = 'X-Requested-With'
+        response['Access-Control-Allow-Headers'] = ",".join( XS_SHARING_ALLOWED_HEADERS )
 
         return response
