@@ -36,11 +36,19 @@ class XsSharingMiddleware(object):
         Access-Control-Allow-Origin: http://foo.example
         Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE
     """
+    def _get_allowed_origin(self, request):
+        allowed_origin = XS_SHARING_ALLOWED_ORIGINS
+        if isinstance(XS_SHARING_ALLOWED_ORIGINS, list):
+            if request.META['HTTP_ORIGIN'] in XS_SHARING_ALLOWED_ORIGINS:
+                allowed_origin = request.META['HTTP_ORIGIN']
+        return allowed_origin
+
     def process_request(self, request):
 
         if 'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META:
             response = http.HttpResponse()
-            response['Access-Control-Allow-Origin']  = XS_SHARING_ALLOWED_ORIGINS
+            allowed_origin = self._get_allowed_origin(request)
+            response['Access-Control-Allow-Origin']  = allowed_origin
             response['Access-Control-Allow-Methods'] = ",".join( XS_SHARING_ALLOWED_METHODS )
             response['Access-Control-Allow-Credentials'] = str(XS_SHARING_ALLOW_CREDENTIALS).lower()
             response['Access-Control-Allow-Headers'] = ",".join( XS_SHARING_ALLOWED_HEADERS )
@@ -53,9 +61,11 @@ class XsSharingMiddleware(object):
         if response.has_header('Access-Control-Allow-Origin'):
             return response
 
-        response['Access-Control-Allow-Origin']  = XS_SHARING_ALLOWED_ORIGINS
+        allowed_origin = self._get_allowed_origin(request)
+        response['Access-Control-Allow-Origin']  = allowed_origin
         response['Access-Control-Allow-Methods'] = ",".join( XS_SHARING_ALLOWED_METHODS )
         response['Access-Control-Allow-Credentials'] = str(XS_SHARING_ALLOW_CREDENTIALS).lower()
         response['Access-Control-Allow-Headers'] = ",".join( XS_SHARING_ALLOWED_HEADERS )
 
         return response
+
