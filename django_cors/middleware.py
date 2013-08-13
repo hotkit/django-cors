@@ -39,7 +39,7 @@ class XsSharingMiddleware(object):
     def _get_allowed_origin(self, request):
         allowed_origin = XS_SHARING_ALLOWED_ORIGINS
         if XS_SHARING_ALLOWED_ORIGINS and isinstance(XS_SHARING_ALLOWED_ORIGINS, list):
-            if request.get('HTTP_ORIGIN') and request.META['HTTP_ORIGIN'] in XS_SHARING_ALLOWED_ORIGINS:
+            if request.META.get('HTTP_ORIGIN') and request.META['HTTP_ORIGIN'] in XS_SHARING_ALLOWED_ORIGINS:
                 allowed_origin = request.META['HTTP_ORIGIN']
             else:
                 # just return the first one because we won't allow the request anyway
