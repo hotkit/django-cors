@@ -10,5 +10,5 @@ setup(
     author_email='team@proteus-tech.com',
     url='https://github.com/Proteus-tech/django-cors',
     packages=['django_cors'],
-    install_requires = ['Django>=1.3.1',],
+    install_requires = ['Django>=1.2.4',],
 )
