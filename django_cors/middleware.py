@@ -44,6 +44,11 @@ class XsSharingMiddleware(object):
             else:
                 # just return the first one because we won't allow the request anyway
                 allowed_origin = XS_SHARING_ALLOWED_ORIGINS[0]
+        elif XS_SHARING_ALLOWED_ORIGINS and callable(XS_SHARING_ALLOWED_ORIGINS):
+            if allowed_origin(request):
+                allowed_origin = request.META['HTTP_ORIGIN']
+            else:
+                allowed_origin = ''
         return allowed_origin
 
     def process_request(self, request):
