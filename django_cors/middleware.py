@@ -15,15 +15,21 @@ from django.utils.text import compress_string
 from django.utils.cache import patch_vary_headers
 
 from django import http
+from django.conf import settings
 
 try:
-    from django.conf import settings
     XS_SHARING_ALLOWED_ORIGINS = settings.XS_SHARING_ALLOWED_ORIGINS
-    XS_SHARING_ALLOWED_METHODS = settings.XS_SHARING_ALLOWED_METHODS
-    XS_SHARING_ALLOWED_HEADERS = settings.XS_SHARING_ALLOWED_HEADERS
-except:
+except AttributeError:
     XS_SHARING_ALLOWED_ORIGINS = '*'
+
+try:
+    XS_SHARING_ALLOWED_METHODS = settings.XS_SHARING_ALLOWED_METHODS
+except AttributeError:
     XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
+try:
+    XS_SHARING_ALLOWED_HEADERS = settings.XS_SHARING_ALLOWED_HEADERS
+except AttributeError:
     XS_SHARING_ALLOWED_HEADERS = ['X-Requested-With']
 
 XS_SHARING_ALLOW_CREDENTIALS = True
